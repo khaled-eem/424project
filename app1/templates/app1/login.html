@@ -14,6 +14,12 @@
             <input type="submit">
         </form>
 
+        {% if message %}
+        <p style="color: red;">{{message}}</p>
+        {% endif %}
+        
+
+
         <p>New? <a href="{% url 'register' %}">Sign Up</a></p>
 
     </div>

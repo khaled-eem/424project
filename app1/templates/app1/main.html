@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block body %} 
+    <div style="text-align: center;">
+    <h2>welcome  {{request.user.username}}!</h2>
+    </div>
+    {% endblock %} 
+    
+
+    <div>
+        <table>
+            <thead>
+                <th>#</th>
+                <th>Task</th>
+                
+            </thead>
+            <tbody>
+                {% with value=0 %}
+                {% for t in tasks %}
+                <tr>
+                    
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{t.n_task}}</td>
+                    
+                </tr>
+                {% endfor %}
+                {% endwith %}
+            </tbody>
+        </table>
+
+    </div>
+    <a href="{% url 'login' %}">Log out</a>
+
+</body>
+</html>
