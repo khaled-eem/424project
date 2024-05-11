@@ -26,7 +26,7 @@
                 <tr>
                     
                     <td>{{ forloop.counter }}</td>
-                    <td>{{t.n_task}}</td>
+                    <td><a href="{% url 'task' t.id_task %}">{{t.n_task}}</a></td>
                     
                 </tr>
                 {% endfor %}

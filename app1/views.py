@@ -47,3 +47,7 @@ def logout_page(request):
           'message':'Logged out',
           'form':LoginForm()
      })
+
+def tsak_page(request,task_id):
+
+     return render(request,'app1/task.html')
