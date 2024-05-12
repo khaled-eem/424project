@@ -9,7 +9,7 @@ from .forms import *
 def login_page(request):
     if request.method=='POST':
         form=LoginForm(request.POST) 
-
+        
         if form.is_valid():
             username=form.cleaned_data['username']
             password=form.cleaned_data['password']
@@ -39,7 +39,22 @@ def main_page(request):
     })
 
 def register_page(request):
-    return render(request,'app1\\register.html')
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        
+        if form.is_valid():
+            user = form.save()
+            
+            
+            return HttpResponseRedirect(reverse('login'))  
+    else:
+        form = RegisterForm()
+        return render(request, 'app1\\register.html', {'form': form})
+    
+    return render(request,'app1\\register.html',{
+         'form':RegisterForm(),
+         'message':'some thing wrong',
+    })
 
 def logout_page(request):
      logout()
@@ -49,5 +64,28 @@ def logout_page(request):
      })
 
 def tsak_page(request,task_id):
+     task=Task.objects.get(id=task_id)
+     return render(request,'app1/task.html',{'task':task})
 
-     return render(request,'app1/task.html')
+def add_page(request):
+
+     if request.method=='POST':
+          form=TaskForm(request.POST)
+          if(form.is_valid):
+               form.save()
+               return HttpResponseRedirect(reverse('main'))
+          else:
+               return render(request,'app1\\add.html',{
+                    'TaskForm':TaskForm(),
+                    'message':'Invalid data'
+               })     
+
+
+     return render(request,'app1\\add.html',{
+          'TaskForm':TaskForm()
+     })
+
+
+#add emp to task
+#modify task
+#reg validation

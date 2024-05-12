@@ -6,12 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'register' %}" method='POST'>
-    {% csrf_token %}
-    {{form}}
-    <button type="submit">Register</button>
-</form>
-{% if message %}
+    <form action="{% url 'add' %}" method="post">
+        {% csrf_token %}
+        {{TaskForm}}
+        <button type="submit">Save</button>
+    </form>
+
+    {% if message %}
         <p style="color: red;">{{message}}</p>
         {% endif %}
 </body>
