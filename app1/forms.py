@@ -4,28 +4,64 @@ from django.contrib.auth.models import User
 from .models import *
 
 class LoginForm(forms.Form):
-    username=forms.CharField(label='UserName', )
-    password=forms.CharField(label='Password', )
+    username = forms.CharField(
+        label='Username',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'username'})
+    )
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'id': 'password'})
+    )
     
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)  # Adding email field to the form
-   
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ['username', 'email', 'password1', 'password2']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+        }
 
 class TaskForm(forms.ModelForm):
-    id_task=forms.CharField(required=True,label='ID')
-    n_task=forms.CharField(required=True,label='Name')
-    dc_task=forms.CharField(required=True,label='Description')
-    dr_task=forms.CharField(required=True,label='Duration')
-  
+    id_task = forms.CharField(
+        required=True,
+        label='ID',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter task ID'
+        })
+    )
+    n_task = forms.CharField(
+        required=True,
+        label='Name',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter task name'
+        })
+    )
+    dc_task = forms.CharField(
+        required=True,
+        label='Description',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter task description'
+        })
+    )
+    dr_task = forms.CharField(
+        required=True,
+        label='Duration',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter task duration'
+        })
+    )
 
     class Meta:
-        model=Task        
-        fields=['ID','Name','Description','Duration']
-        fields='__all__'
-
+        model = Task
+        fields = '__all__'  # This specifies that all fields should be used
 
 class AddEmployeeTask(forms.ModelForm):
     id_employee=forms.CharField(required=True, label='ID')
@@ -43,4 +79,23 @@ class AddEmployeeTask(forms.ModelForm):
 class ModifyTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['id_task', 'n_task', 'dc_task', 'dr_task']  # Include all fields the user can modify
+        fields = ['id_task', 'n_task', 'dc_task', 'dr_task']  # Fields to include
+        widgets = {
+            'id_task': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter task ID',
+                'readonly': 'readonly'  # Making ID readonly if it should not be changed
+            }),
+            'n_task': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter task name'
+            }),
+            'dc_task': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter task description'
+            }),
+            'dr_task': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter task duration'
+            }),
+        }

@@ -1,27 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD app</title>
-</head>
-<body>
-    <div>
+
+<!-- extend the layout -->
+{% extends 'app1/layout.html' %}
+{% block content %}
+
+    <div 
+     class="container   "
+    >
+        <div class="row align-items-center regContainer">
+            <div class="col-md-6 mx-auto background p-4">                
+
+                <h1 class="pb-4">
+                    Mange Your Tasks!
+                </h1>
+
+                <h2 class="pb-2">
+                    Login
+                </h2>
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        {{ form.username.errors }}
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        {{ form.password.errors }}
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
         
-        <form action="{% url 'login' %}"  method='post'>
-            {% csrf_token %}
-            {{form}}
-            <input type="submit">
-        </form>
+                {% if message %}
+                <p style="color: red;">{{message}}</p>
+                {% endif %}
+                    
 
-        {% if message %}
-        <p style="color: red;">{{message}}</p>
-        {% endif %}
-        
-
-
-        <p>New? <a href="{% url 'register' %}">Sign Up</a></p>
+                <p class="mt-2">New?  <a href="{% url 'register' %}">Sign Up</a></p>
+            </div>
+        </div>
 
     </div>
-</body>
-</html>
+
+{% endblock %} 

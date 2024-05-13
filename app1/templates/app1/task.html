@@ -1,50 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-   id: {{task.id_task}}
-   <br>
-   name: {{task.n_task}}
-   <br>
-   description:  {{task.dc_task}}
-   <br>
-   duration:    {{task.dr_task}}
-    <!-- رتبها زي ماتبي -->
-  </div> 
-<br>
-<br>
-<div>
-    <ul>
-    {% for emp in employee%}
-      <li>{{emp.n_employee}}</li>
-    {%empty%}
-    <h1>No Employees</h1>
-    {% endfor %}
-    </ul>
-</div>
-<br>
+<!-- extend the layout -->
+{% extends 'app1/layout.html' %}
+{% block content %}
 
-  <div>
+<div class="container   ">
+  <div class="row align-items-center regContainer">
+    <div class="col-md-6 mx-auto background p-4">
 
-    <form action="{% url 'task' task.id_task %}" method='POST'>
-        {% csrf_token %}
-        <select name="employee" id="">
-          {% for emp in nonEmployee %}
-          <option value="{{emp.id_employee}}">{{emp}}</option>
+
+      <a href="{% url 'main' %}">
+        < Home 
+      </a>
+
+      <h3>
+        {{task.n_task}}
+      </h3>
+
+      <div class=" py-3">
+        <h5>
+          id: {{task.id_task}}
+        </h5>
+        <h5>
+          description: {{task.dc_task}}
+        </h5>
+        <h5>
+          duration: {{task.dr_task}}
+        </h5>
+      </div>
+
+      <div>
+        <h4>Employees</h4>
+        <ul>
+          {% for emp in employee%}
+          <li>{{emp.n_employee}}</li>
+          {%empty%}
+          <h1>No Employees</h1>
           {% endfor %}
-        </select>
-        <button type="submit">Add</button>
-    </form>
-  </div>
-  
+        </ul>
+      </div>
 
-  <a href="{% url 'modify' task.id %}">Modify</a>
-  <br>
-   <a href="{% url 'main' %}">All task</a>
-</body>
-</html>
+
+      <!-- check if the array is empty -->
+      {% if nonEmployee %}
+      <div>
+        <form action="{% url 'task' task.id_task %}" method='POST'>
+          {% csrf_token %}
+          <select name="employee" id="" class="form-select" >
+            {% for emp in nonEmployee %}
+            <option value="{{emp.id_employee}}">{{emp}}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class=" btn btn-primary mt-2">Add</button>
+        </form>
+      </div>
+      {% endif %}
+      
+      <div class=" d-flex justify-content-end">
+
+        <a href="{% url 'modify' task.id %}" class=" btn btn-primary mt-3" >Modify</a>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+{% endblock %}

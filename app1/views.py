@@ -31,7 +31,7 @@ def login_page(request):
                 return render(request,'app1\login.html',{
                 'form':LoginForm()})
 
-    return render(request,'app1\login.html',{
+    return render(request,'app1/login.html',{
                 'form':LoginForm()})
     
 def main_page(request):
@@ -50,9 +50,9 @@ def register_page(request):
             return HttpResponseRedirect(reverse('login'))  
     else:
         form = RegisterForm()
-        return render(request, 'app1\\register.html', {'form': form})
+        return render(request, 'app1/register.html', {'form': form})
     
-    return render(request,'app1\\register.html',{
+    return render(request,'app1/register.html',{
          'form':RegisterForm(),
          'message':'some thing wrong',
     })
@@ -100,14 +100,14 @@ def add_page(request):
                form.save()
                return HttpResponseRedirect(reverse('main'))
           else:
-               return render(request,'app1\\add.html',{
+               return render(request,'app1//add.html',{
                     'TaskForm':TaskForm(),
                     'message':'Invalid data'
                })     
 
 
-     return render(request,'app1\\add.html',{
-          'TaskForm':TaskForm()
+     return render(request,'app1//add.html',{
+          'form':TaskForm()
      })
 
 
@@ -121,16 +121,19 @@ def modify_page(request,task_id):
             return HttpResponseRedirect(reverse('task', args=(task_id,)))  
         else:
           form = ModifyTaskForm(instance=task)  
-          return render(request,'app1\modify.html',{'ModifyForm':form,'tid':task_id})
+          return render(request,'app1/modify.html',{'ModifyForm':form,'tid':task_id})
     
-     return render(request,'app1\modify.html',{
-         'ModifyForm':ModifyTaskForm(instance=task),
+     return render(request,'app1/modify.html',{
+         'form':ModifyTaskForm(instance=task),
          'tid':task_id
          })
 
 
-
-
+def delete_task(request, id):
+    task = get_object_or_404(Task, pk=id)  # This ensures the task exists or raises a 404 error
+    if request.method == 'POST':
+        task.delete()
+        return render(request, 'app1/main.html', {'tasks': Task.objects.all()})
 
 #add emp to task
 #d 
