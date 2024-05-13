@@ -16,8 +16,35 @@
    duration:    {{task.dr_task}}
     <!-- رتبها زي ماتبي -->
   </div> 
+<br>
+<br>
+<div>
+    <ul>
+    {% for emp in employee%}
+      <li>{{emp.n_employee}}</li>
+    {%empty%}
+    <h1>No Employees</h1>
+    {% endfor %}
+    </ul>
+</div>
+<br>
 
-    
+  <div>
+
+    <form action="{% url 'task' task.id_task %}" method='POST'>
+        {% csrf_token %}
+        <select name="employee" id="">
+          {% for emp in nonEmployee %}
+          <option value="{{emp.id_employee}}">{{emp}}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Add</button>
+    </form>
+  </div>
+  
+
+  <a href="{% url 'modify' task.id %}">Modify</a>
+  <br>
    <a href="{% url 'main' %}">All task</a>
 </body>
 </html>

@@ -3,4 +3,6 @@ from .models import *
 
 
 admin.site.register(Task)
+admin.site.register(Employee)
+
 # Register your models here.

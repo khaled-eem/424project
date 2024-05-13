@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
@@ -64,8 +65,32 @@ def logout_page(request):
      })
 
 def tsak_page(request,task_id):
-     task=Task.objects.get(id=task_id)
-     return render(request,'app1/task.html',{'task':task})
+     print(task_id)
+     task1=Task.objects.get(id_task=task_id)
+   
+     employees=task1.employee.all()
+     non_employee= Employee.objects.exclude(task=task1).all()
+     for i in employees:
+          print(i.__str__())
+
+     if request.method=='POST':
+         task1=Task.objects.get(id=task_id) 
+         employee_id=int(request.POST['employee'])
+         employee=Employee.objects.get(id_employee=employee_id)
+         employee.task.add(task1)
+
+         return HttpResponseRedirect(reverse('task',args=(task_id,)))
+
+          
+
+  
+
+
+     return render(request,'app1/task.html',{
+          'task':task1,
+          'employee':employees,
+          'nonEmployee':non_employee
+                                        })
 
 def add_page(request):
 
@@ -86,7 +111,29 @@ def add_page(request):
      })
 
 
+def modify_page(request,task_id):
+     task = get_object_or_404(Task, id=task_id)  
+     id=task.id_task
+     if request.method == 'POST':
+        form = ModifyTaskForm(request.POST, instance=task)  
+        if form.is_valid():
+            form.save() 
+            return HttpResponseRedirect(reverse('task', args=(task_id,)))  
+        else:
+          form = ModifyTaskForm(instance=task)  
+          return render(request,'app1\modify.html',{'ModifyForm':form,'tid':task_id})
+    
+     return render(request,'app1\modify.html',{
+         'ModifyForm':ModifyTaskForm(instance=task),
+         'tid':task_id
+         })
+
+
+
+
+
 #add emp to task
+#d 
 #modify task
 #reg validation
-#1111
+

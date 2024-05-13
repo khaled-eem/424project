@@ -25,3 +25,22 @@ class TaskForm(forms.ModelForm):
         model=Task        
         fields=['ID','Name','Description','Duration']
         fields='__all__'
+
+
+class AddEmployeeTask(forms.ModelForm):
+    id_employee=forms.CharField(required=True, label='ID')
+    n_employee=forms.CharField(required=True, label='Name')
+
+
+    class Meta:
+        model=Employee
+        fields=['id','name']
+        fields='__all__'
+
+
+
+
+class ModifyTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['id_task', 'n_task', 'dc_task', 'dr_task']  # Include all fields the user can modify

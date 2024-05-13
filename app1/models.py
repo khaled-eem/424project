@@ -8,5 +8,10 @@ class Task(models.Model):
     
 
   
-
+class Employee(models.Model):
+    id_employee=models.CharField(max_length=64)
+    n_employee=models.CharField(max_length=64)
+    task=models.ManyToManyField(Task,blank=True,related_name='employee')
 # Create your models here.
+    def __str__(self) :
+        return f'{self.id_employee}, {self.n_employee}'
