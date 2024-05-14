@@ -14,7 +14,7 @@
                 Create A New Task
             </h1>
 
-            <form method="post">
+            <form method="post" action="{% url 'add' %}" >
                 {% csrf_token %}
                 {{ form.id_task.errors }}
                 <div class="mb-3">

@@ -13,9 +13,11 @@ body {
 }
 
 .background{
-    background-color: #eeeeee;
+    background-color: #eeeeee7c;
     border-radius: 1rem;
     border: 1px solid #d1d1d1;
+    backdrop-filter: blur(5px);
+    /* Adjust the blur value as needed */
 }
 
 .w-full{

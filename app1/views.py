@@ -44,9 +44,7 @@ def register_page(request):
         form = RegisterForm(request.POST)
         
         if form.is_valid():
-            user = form.save()
-            
-            
+            user = form.save()                        
             return HttpResponseRedirect(reverse('login'))  
     else:
         form = RegisterForm()
@@ -101,12 +99,12 @@ def add_page(request):
 
      if request.method=='POST':
           form=TaskForm(request.POST)
-          if(form.is_valid):
+          if(form.is_valid()):
                form.save()
                return HttpResponseRedirect(reverse('main'))
           else:
                return render(request,'app1//add.html',{
-                    'TaskForm':TaskForm(),
+                    'form':form ,
                     'message':'Invalid data'
                })     
 

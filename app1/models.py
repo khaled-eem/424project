@@ -1,9 +1,9 @@
 from django.db import models
 
 class Task(models.Model):
-    id_task=models.CharField(max_length=64)
+    id_task=models.CharField(max_length=364)
     n_task=models.CharField(max_length=64)
-    dc_task=models.CharField(max_length=64)
+    dc_task=models.CharField(max_length=364)
     dr_task=models.CharField(max_length=64)
     
 

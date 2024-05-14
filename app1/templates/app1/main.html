@@ -1,5 +1,6 @@
 {% extends 'app1/layout.html' %}
 {% block content %}
+{% load static %}
 {% load widget_tweaks %}
 
 <div class="container-sm py-5 ">
@@ -8,9 +9,13 @@
         <div class=" border-bottom py-2 d-flex justify-content-between "
         style="width: 100%;"
         >
-            <h3>
-                Welcome {{request.user.username}} 👋
-            </h3>
+            <div class="d-flex gap-2 align-items-center">
+                <img src="{% static 'app1/logo.png' %}" class=" text-center" width="40" height="40" />
+                <h3>
+                    Welcome {{request.user.username}} 👋
+                </h3>
+            </div>
+
             <div class="d-flex">
 
                 <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
@@ -33,6 +38,21 @@
             </div>
 
             <div class="row">
+
+                <!-- if there is no task show this message -->
+
+                {% if tasks|length == 0 %}
+
+                <div class="col-sm-12 py-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title
+                            ">No tasks available</h4>
+                        </div>
+                    </div>
+                </div>
+                    
+                {% endif %}
 
                 {% with value=0 %}
                 {% for t in tasks %}
