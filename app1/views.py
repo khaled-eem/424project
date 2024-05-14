@@ -70,27 +70,32 @@ def tsak_page(request,task_id):
    
      employees=task1.employee.all()
      non_employee= Employee.objects.exclude(task=task1).all()
-     for i in employees:
-          print(i.__str__())
+     #for i in employees:
+      #    print(i.__str__())
 
      if request.method=='POST':
-         task1=Task.objects.get(id=task_id) 
+         task1=Task.objects.get(id_task=task_id) 
+         print(task1.n_task)
          employee_id=int(request.POST['employee'])
+         print(employee_id,'>>>get id')
          employee=Employee.objects.get(id_employee=employee_id)
+         print(employee.n_employee,'>>>name')
          employee.task.add(task1)
 
          return HttpResponseRedirect(reverse('task',args=(task_id,)))
-
+     else:
+         
+         return render(request,'app1/task.html',{
+          'task':task1,
+          'employee':employees,
+          'nonEmployee':non_employee
+                                        })
           
 
   
 
 
-     return render(request,'app1/task.html',{
-          'task':task1,
-          'employee':employees,
-          'nonEmployee':non_employee
-                                        })
+     
 
 def add_page(request):
 
@@ -112,7 +117,9 @@ def add_page(request):
 
 
 def modify_page(request,task_id):
-     task = get_object_or_404(Task, id=task_id)  
+     
+     tk=Task.objects.get(id_task=task_id)
+     task = get_object_or_404(Task, pk=tk.id)  
      id=task.id_task
      if request.method == 'POST':
         form = ModifyTaskForm(request.POST, instance=task)  
@@ -130,7 +137,7 @@ def modify_page(request,task_id):
 
 
 def delete_task(request, id):
-    task = get_object_or_404(Task, pk=id)  # This ensures the task exists or raises a 404 error
+    task = get_object_or_404(Task, id_task=id)  # This ensures the task exists or raises a 404 error
     if request.method == 'POST':
         task.delete()
         return render(request, 'app1/main.html', {'tasks': Task.objects.all()})
